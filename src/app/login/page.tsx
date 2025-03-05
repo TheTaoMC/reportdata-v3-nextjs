@@ -55,23 +55,23 @@ export default function LoginPage() {
         <div className="text-2xl flex justify-center my-2">เข้าสู่ระบบ</div>
         <form onSubmit={handleSubmit}>
           <div>
-            <div className="flex justify-between">
-              <div className="w-24">
-                <label>ชื่อผู้ใช้งาน :</label>
+            <div>
+              <div className="w-24 my-2">
+                <label>ชื่อผู้ใช้งาน</label>
               </div>
               <InputText
-                className="h-8"
+                className="h-8 w-full"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
           </div>
-          <div className="flex justify-between">
-            <div className="w-24">
-              <label>รหัสผ่าน :</label>
+          <div className="">
+            <div className="w-24 my-2">
+              <label>รหัสผ่าน</label>
             </div>
-
             <Password
+              className="w-full h-[100px]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               feedback={false}
@@ -79,7 +79,7 @@ export default function LoginPage() {
             />
           </div>
           <div className="flex justify-center mt-4">
-            <Button label="ตกลง" size="small" className="h-8 w-full" />
+            <Button label="ตกลง" size="small" className="h-10 w-full" />
           </div>
           {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
