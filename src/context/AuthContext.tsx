@@ -17,6 +17,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
+    console.log("useEffect called");
     const storedToken = sessionStorage.getItem("token");
 
     if (!storedToken) {
@@ -37,6 +38,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setToken(storedToken); // เก็บ Token ใน State
       setRole(userRole); // เก็บ Role ใน State
       setName(userName); // เก็บ Role ใน State
+
+      console.log("Auth Context Updated:", {
+        role: userRole,
+        token: storedToken,
+        name: userName,
+      });
     } catch (error) {
       console.error("Invalid token");
       router.push("/login"); // Redirect ไปยัง Login หาก Token ไม่ถูกต้อง

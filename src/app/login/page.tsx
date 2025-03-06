@@ -7,6 +7,7 @@ import { Toaster, toaster } from "@/components/ui/toaster";
 import { Field } from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useForm } from "react-hook-form";
+import { useAuthStore } from "@/store/authStore";
 
 interface FormValues {
   username: string;
@@ -14,6 +15,7 @@ interface FormValues {
 }
 
 export default function LoginPage() {
+  const setAuth = useAuthStore((state) => state.setAuth);
   const router = useRouter();
 
   const {
@@ -47,6 +49,8 @@ export default function LoginPage() {
 
       const responseData = await response.json();
       sessionStorage.setItem("token", responseData.token); // เก็บ Token ใน Session Storage
+      // ตั้งค่า Token ใน Store
+      setAuth(responseData.token);
       router.push("/users"); // Redirect ไปยัง /users
     } catch (err) {
       toast("กรุณาลองใหม่อีกครั้ง");
@@ -63,9 +67,17 @@ export default function LoginPage() {
     <>
       <div className="w-full bg-red-500 mx-[20px]">
         <div className="flex justify-center items-center h-[90vh] ">
-          <Box bg="gray.100" shadow="md" borderRadius="md" padding="4" className="w-[25%]">
+          <Box
+            bg="gray.100"
+            shadow="md"
+            borderRadius="md"
+            padding="4"
+            className="w-[25%]"
+          >
             <div className="p-10 m-10">
-              <Text paddingY='2' textStyle="2xl">เข้าสู่ระบบ</Text>
+              <Text paddingY="2" textStyle="2xl">
+                เข้าสู่ระบบ
+              </Text>
             </div>
             <form onSubmit={onSubmit}>
               <Stack gap="4" align="flex-start" maxW="md">
@@ -76,7 +88,7 @@ export default function LoginPage() {
                 >
                   <Input
                     borderWidth="1px"
-                    borderColor='blackAlpha.500'
+                    borderColor="blackAlpha.500"
                     {...register("username", {
                       required: "กรุณากรอกชื่อผู้ใช้งาน",
                       validate: (value) => {
@@ -98,7 +110,7 @@ export default function LoginPage() {
                 >
                   <PasswordInput
                     borderWidth="1px"
-                    borderColor='blackAlpha.500'
+                    borderColor="blackAlpha.500"
                     {...register("password", {
                       required: "กรุณากรอกรหัสผ่าน",
                       validate: (value) => {

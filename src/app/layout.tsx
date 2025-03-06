@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/context/AuthContext";
+//import { AuthProvider } from "@/context/AuthContext";
 import { Provider } from "@/components/ui/provider";
 import Navbar from "@/components/Navbar";
 
 //import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
 
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+//import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,12 +34,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <Provider>
-            <Navbar/>
-            {children}
-          </Provider>
-        </AuthProvider>
+        <Provider>
+          <Navbar />
+          {children}
+        </Provider>
       </body>
     </html>
   );
