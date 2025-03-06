@@ -20,16 +20,17 @@
 }
 
 @font-face {
-  font-family: "Kanit-Regular";
-  src: local("Kanit-Regular"), url(@/fonts/Kanit-Regular.ttf) format("ttf");
+  font-family: "Kanit";
+  src: url("/fonts/Kanit-Regular.ttf") format("truetype");
+  font-weight: normal;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: "Kanit-Regular", Arial, Helvetica, sans-serif;
+@font-face {
+  font-family: "Kanit";
+  src: url("/fonts/Kanit-Bold.ttf") format("truetype");
+  font-weight: bold;
 }
 
 * {
-  font-family: "Kanit-Regular", Arial, Helvetica, sans-serif;
+  font-family: "Kanit", Arial, Helvetica, sans-serif;
 }

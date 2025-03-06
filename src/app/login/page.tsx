@@ -1,29 +1,33 @@
 // app/login/page.tsx
 "use client";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/password";
+
+import { Button, Input, Stack, Text, Box } from "@chakra-ui/react";
+import { Toaster, toaster } from "@/components/ui/toaster";
+import { Field } from "@/components/ui/field";
+import { PasswordInput } from "@/components/ui/password-input";
+import { useForm } from "react-hook-form";
+
+interface FormValues {
+  username: string;
+  password: string;
+}
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
+  const onSubmit = handleSubmit(async (data) => {
     try {
-      if (!username || !password) {
-        setError("กรุณากรอกชื่อผู้ใช้งาน และ รหัสผ่าน");
-        return;
-      }
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ Username: username, Pwd: password }),
+        body: JSON.stringify({ Username: data.username, Pwd: data.password }),
       });
 
       if (!response.ok) {
@@ -31,59 +35,87 @@ export default function LoginPage() {
         console.log("errorData ", errorData);
 
         if (errorData.status === 401) {
-          setError("ชื่อผู้ใช้งาน หรือ รหัสผ่าน ไม่ถูกต้อง" || "Login failed");
+          toast("ชื่อผู้ใช้งาน หรือ รหัสผ่าน ไม่ถูกต้อง");
           return;
         }
         if (errorData.status === 403) {
-          setError("ไม่มีสิทธิ์เข้าใช้ระบบ" || "Login failed");
+          toast("ไม่มีสิทธิ์เข้าใช้ระบบ");
           return;
         }
         return;
       }
 
-      const data = await response.json();
-      sessionStorage.setItem("token", data.token); // เก็บ Token ใน Session Storage
+      const responseData = await response.json();
+      sessionStorage.setItem("token", responseData.token); // เก็บ Token ใน Session Storage
       router.push("/users"); // Redirect ไปยัง /users
     } catch (err) {
-      setError("An error occurred. Please try again.");
+      toast("กรุณาลองใหม่อีกครั้ง");
     }
-  };
+  });
+
+  const toast = (e) =>
+    toaster.create({
+      title: e,
+      type: "error",
+    });
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <div className="p-4 border border-blue-300 rounded-md">
-        <div className="text-2xl flex justify-center my-2">เข้าสู่ระบบ</div>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <div>
-              <div className="w-24 my-2">
-                <label>ชื่อผู้ใช้งาน</label>
-              </div>
-              <InputText
-                className="h-8 w-full"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="">
-            <div className="w-24 my-2">
-              <label>รหัสผ่าน</label>
-            </div>
-            <Password
-              className="w-full h-[100px]"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              feedback={false}
-              toggleMask
-            />
-          </div>
-          <div className="flex justify-center mt-4">
-            <Button label="ตกลง" size="small" className="h-10 w-full" />
-          </div>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-        </form>
+    <>
+      <div className="w-full bg-red-500 mx-[20px]">
+        <div className="flex justify-center items-center h-[90vh] mx-auto">
+          <Box bg="gray.200" shadow="md" borderRadius="md" padding="4">
+            <Text textStyle="2xl">เข้าสู่ระบบ</Text>
+            <form onSubmit={onSubmit}>
+              <Stack gap="4" align="flex-start" maxW="sm">
+                <Field
+                  label="ชื่อผู้ใช้งาน"
+                  invalid={!!errors.username}
+                  errorText={errors.username?.message}
+                >
+                  <Input
+                    {...register("username", {
+                      required: "กรุณากรอกชื่อผู้ใช้งาน",
+                      validate: (value) => {
+                        if (value.trim() === "") {
+                          return "Username cannot be empty or just whitespace";
+                        }
+                        /*                       if (value.length < 3) {
+                        return "Username must be at least 3 characters long";
+                      } */
+                        return true;
+                      },
+                    })}
+                  />
+                </Field>
+                <Field
+                  label="รหัสผ่าน"
+                  invalid={!!errors.password}
+                  errorText={errors.password?.message}
+                >
+                  <PasswordInput
+                    {...register("password", {
+                      required: "กรุณากรอกรหัสผ่าน",
+                      validate: (value) => {
+                        if (value.trim() === "") {
+                          return "Password cannot be empty or just whitespace";
+                        }
+                        /*                       if (value.length < 6) {
+                        return "Password must be at least 6 characters long";
+                      } */
+                        return true;
+                      },
+                    })}
+                  />
+                </Field>
+                <Button className="w-full" type="submit">
+                  ตกลง
+                </Button>
+                <Toaster />
+              </Stack>
+            </form>
+          </Box>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
