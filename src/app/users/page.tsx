@@ -1,12 +1,9 @@
 // app/users/page.tsx
 "use client";
 import { useEffect, useState } from "react";
-import LogoutButton from "@/components/LogoutButton";
 import jwt from "jsonwebtoken";
-import AddButton from "@/components/AddButton";
-import DeleteButton from "@/components/DeleteButton";
-import EditButton from "@/components/EditButton";
 import { useAuth } from "@/context/AuthContext";
+import { Button, Text, Flex,Container } from "@chakra-ui/react"
 
 interface User {
   Username: string;
@@ -32,16 +29,19 @@ export default function UsersPage() {
   }, []);
 
   return (
-    <div>
-      <h1>Users</h1>
-      <div>
-        <h1>Welcome, {name}</h1>
-        <p>Your role is: {role}</p>
+
+    <Container maxW='8xl'>
+      <Flex justify='center'>
+        <div><Text padding="2" textStyle="4xl">ผู้ใช้งาน</Text></div>
+      </Flex>
+
+      <div className="flex justify-end p-4">
+        <Text>Welcome, {name} role is: {role}</Text>
       </div>
       <div>
-        <AddButton />
-        <DeleteButton />
-        <EditButton />
+        <Button>เพิ่ม</Button>
+        <Button>แก้ไข</Button>
+        <Button colorPalette='red'>ลบ</Button>
       </div>
       <ul>
         {users.map((user) => (
@@ -52,7 +52,6 @@ export default function UsersPage() {
           </li>
         ))}
       </ul>
-      <LogoutButton />
-    </div>
+    </Container>
   );
 }

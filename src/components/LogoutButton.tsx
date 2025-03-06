@@ -1,6 +1,7 @@
 // components/LogoutButton.tsx
 "use client";
 import { useRouter } from "next/navigation";
+import { Button } from "@chakra-ui/react"
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -11,18 +12,6 @@ export default function LogoutButton() {
   };
 
   return (
-    <button
-      onClick={handleLogout}
-      style={{
-        padding: "10px 20px",
-        background: "#ff4d4d",
-        color: "white",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-      }}
-    >
-      Logout
-    </button>
+    <Button onClick={handleLogout}>ออกจากระบบ</Button>
   );
 }

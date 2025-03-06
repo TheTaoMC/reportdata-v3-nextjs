@@ -62,17 +62,21 @@ export default function LoginPage() {
   return (
     <>
       <div className="w-full bg-red-500 mx-[20px]">
-        <div className="flex justify-center items-center h-[90vh] mx-auto">
-          <Box bg="gray.200" shadow="md" borderRadius="md" padding="4">
-            <Text textStyle="2xl">เข้าสู่ระบบ</Text>
+        <div className="flex justify-center items-center h-[90vh] ">
+          <Box bg="gray.100" shadow="md" borderRadius="md" padding="4" className="w-[25%]">
+            <div className="p-10 m-10">
+              <Text paddingY='2' textStyle="2xl">เข้าสู่ระบบ</Text>
+            </div>
             <form onSubmit={onSubmit}>
-              <Stack gap="4" align="flex-start" maxW="sm">
+              <Stack gap="4" align="flex-start" maxW="md">
                 <Field
                   label="ชื่อผู้ใช้งาน"
                   invalid={!!errors.username}
                   errorText={errors.username?.message}
                 >
                   <Input
+                    borderWidth="1px"
+                    borderColor='blackAlpha.500'
                     {...register("username", {
                       required: "กรุณากรอกชื่อผู้ใช้งาน",
                       validate: (value) => {
@@ -93,6 +97,8 @@ export default function LoginPage() {
                   errorText={errors.password?.message}
                 >
                   <PasswordInput
+                    borderWidth="1px"
+                    borderColor='blackAlpha.500'
                     {...register("password", {
                       required: "กรุณากรอกรหัสผ่าน",
                       validate: (value) => {
