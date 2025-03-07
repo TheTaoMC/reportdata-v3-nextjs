@@ -1,8 +1,6 @@
 // app/users/page.tsx
 "use client";
 import { useEffect, useState } from "react";
-import jwt from "jsonwebtoken";
-import { useAuth } from "@/context/AuthContext";
 import { Button, Text, Flex,Container } from "@chakra-ui/react"
 
 interface User {
@@ -14,7 +12,6 @@ interface User {
 }
 
 export default function UsersPage() {
-  const { role, token, name } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
@@ -35,9 +32,7 @@ export default function UsersPage() {
         <div><Text padding="2" textStyle="4xl">ผู้ใช้งาน</Text></div>
       </Flex>
 
-      <div className="flex justify-end p-4">
-        <Text>Welcome, {name} role is: {role}</Text>
-      </div>
+
       <div>
         <Button>เพิ่ม</Button>
         <Button>แก้ไข</Button>

@@ -52,12 +52,12 @@ export default function LoginPage() {
       // ตั้งค่า Token ใน Store
       setAuth(responseData.token);
       router.push("/users"); // Redirect ไปยัง /users
-    } catch (err) {
+    } catch {
       toast("กรุณาลองใหม่อีกครั้ง");
     }
   });
 
-  const toast = (e) =>
+  const toast = (e: string) =>
     toaster.create({
       title: e,
       type: "error",

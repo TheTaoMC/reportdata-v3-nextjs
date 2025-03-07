@@ -10,6 +10,11 @@ interface AuthState {
   resetAuth: () => void;
 }
 
+interface DecodedToken {
+  Role?: string;
+  Username?: string;
+}
+
 export const useAuthStore = create<AuthState>((set) => ({
   role: null,
   token: null,
@@ -18,7 +23,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   // ฟังก์ชันสำหรับตั้งค่า Token และ Decode
   setAuth: (token: string) => {
     try {
-      const decoded: any = jwtDecode(token); // Decode Token
+      const decoded: DecodedToken = jwtDecode(token); // Decode Token
       const role = decoded?.Role || null;
       const name = decoded?.Username || null;
 

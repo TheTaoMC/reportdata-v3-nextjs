@@ -1,8 +1,8 @@
 // app/auth-layout.tsx
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import jwt from "jsonwebtoken";
+
 
 export default function AuthLayout({
   children,
@@ -10,7 +10,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const [role, setRole] = useState<string | null>(null);
+
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");

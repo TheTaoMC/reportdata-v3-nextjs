@@ -9,7 +9,15 @@ export async function getUserList() {
   return rows;
 }
 
-export async function createUser(data: any) {
+interface UserData {
+  Username: string;
+  FullName: string;
+  Pwd: string;
+  Cancel?: boolean;
+  CanEditUser?: boolean;
+}
+
+export async function createUser(data: UserData) {
   const { Username, FullName, Pwd, Cancel, CanEditUser } = data;
 
   if (!Username || !FullName || !Pwd) {

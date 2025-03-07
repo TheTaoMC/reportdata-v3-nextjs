@@ -15,7 +15,7 @@ export async function POST(request: Request) {
       );
     }
 
-    return new Response(JSON.stringify(result.data), { status: 200 });
+    return new Response(JSON.stringify({ token: result.token }), { status: 200 });
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ message: "Server error" }), {
