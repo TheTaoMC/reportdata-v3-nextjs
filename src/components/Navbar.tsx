@@ -38,35 +38,35 @@ const Navbar = () => {
         </Text>
 
         {/* Navigation Links */}
-        <Flex align="center" gap={4}>
-          <Link as={NextLink} href="/" fontWeight="medium" color={color}>
-            Home
-          </Link>
-          <Link as={NextLink} href="/about" fontWeight="medium" color={color}>
-            About
-          </Link>
-          <Link as={NextLink} href="/contact" fontWeight="medium" color={color}>
-            Contact
-          </Link>
 
-          {/* Drop Down Menu */}
+        <Flex align="center" gap={2}>
+          {token && (<>
+            <Link as={NextLink} href="/" fontWeight="medium" color={color}>
+              Dashboard
+            </Link>
+            <Button size="sm" borderRadius='xl' onClick={() => router.push("/dashboard")}>Dashboard</Button>
 
-          <MenuRoot>
-            <MenuTrigger asChild>
-              <Button size="sm">Open</Button>
-            </MenuTrigger>
-            <MenuContent position={"absolute"} top={"55px"} right={"70px"}>
-              <MenuItem value="new-txt">New Text File</MenuItem>
-              <MenuItem value="new-file">New File...</MenuItem>
-              <MenuItem value="new-win">New Window</MenuItem>
-              <MenuItem value="open-file">Open File...</MenuItem>
-              <MenuItem value="export">Export</MenuItem>
-            </MenuContent>
-          </MenuRoot>
+            {/* Drop Down Menu */}
+
+            <MenuRoot>
+              <MenuTrigger asChild>
+                <Button size="sm" borderRadius='xl'>ข้อมูล</Button>
+              </MenuTrigger>
+              <MenuContent position={"fixed"} top={"55px"} right={"90px"}>
+                <MenuItem value="new-txt" onClick={() => router.push("/users")}>ผู้ใช้งาน</MenuItem>
+                <MenuItem value="new-file">New File...</MenuItem>
+                <MenuItem value="new-win">New Window</MenuItem>
+                <MenuItem value="open-file">Open File...</MenuItem>
+                <MenuItem value="export">Export</MenuItem>
+              </MenuContent>
+            </MenuRoot>
+          </>
+          )}
+
 
           {/* Logout Button */}
           {token ? (
-            <Button
+            <Button borderRadius='xl'
               onClick={handleLogout} // Pass the function reference
               colorScheme="red"
               size="sm"
@@ -74,7 +74,7 @@ const Navbar = () => {
               ออกจากระบบ
             </Button>
           ) : (
-            <Button
+            <Button borderRadius='xl'
               onClick={handleLogout} // Pass the function reference
               colorScheme="red"
               size="sm"
@@ -84,9 +84,13 @@ const Navbar = () => {
           )}
         </Flex>
       </Flex>
-      <Text className="flex justify-end">
-        Welcome, {name} role is: {role}
-      </Text>
+      {token && (
+
+        <Text className="flex justify-end">
+          Welcome, {name} role is: {role}
+        </Text>
+      )}
+
     </Box>
   );
 };
